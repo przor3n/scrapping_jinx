@@ -27,7 +27,7 @@ export PRINT_HELP_PYSCRIPT
 
 BROWSER := python -c "$$BROWSER_PYSCRIPT"
 
-APP_NAME = happy_repo
+APP = happy_repo
 
 
 help:
@@ -61,7 +61,7 @@ coverage: ## check code coverage quickly with the default Python
 	$(BROWSER) htmlcov/index.html
 
 check_code:
-	pycodestyle ./$(APP_NAME)/*
+	pycodestyle ./$(APP)/*
 	pycodestyle ./tests/*
 
 dist: clean
@@ -73,28 +73,49 @@ dist-upload:
 	twine upload dist/*
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/$(APP_NAME).rst
+	rm -f docs/$(APP).rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ $(APP_NAME)
+	sphinx-apidoc -o docs/ $(APP)
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 document:
-	pycco -spi -d docs/literate $(APP_NAME)/*
+	pycco -spi -d docs/literate $(APP)/*
 
 docker: clean
-	docker build -t $(APP_NAME):latest .
+	docker build -t $(APP):latest .
 
 format_code:
-	autopep8 -i -r -aaa ./$(APP_NAME)/*
+	autopep8 -i -r -aaa ./$(APP)/*
 	autopep8 -i -r -aaa ./tests/*
+
+format:
+	yapf -ir $(APP) tests
+
+lint: ## check style with flake8
+	flake8 $(APP) tests
+
+test: ## run tests quickly with the default Python
+	pytest
+
+test-all: ## run tests on every Python version with tox
+	tox
+
+cprofile:
+	python -m cProfile -o tests/app_profile.cprof tests/profile_script.py
+
+inspect: cprofile
+	pyprof2calltree -k -i tests/app_profile.cprof
+
+vprof:
+	vprof -c cpmh $(APP_TO_PROFILE)
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
 lint: ## check style with flake8
-	flake8 $(APP_NAME) tests
+	flake8 $(APP) tests
 
 requirements:
 	.venv/bin/pip freeze --local > requirements.txt
@@ -117,7 +138,7 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 virtualenv:
-	virtualenv --prompt '|> $(APP_NAME) <| ' .venv
+	virtualenv --prompt '|> $(APP) <| ' .venv
 	.venv/bin/pip install -r requirements_dev.txt
 	.venv/bin/python setup.py develop
 	@echo
