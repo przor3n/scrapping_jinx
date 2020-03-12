@@ -2,3 +2,7 @@ from os import environ
 
 DB_CONNECTION = environ.get('DB_CONNECTION')
 DB_SCHEMA = environ.get('DB_SCHEMA')
+
+LINK_CONSUMER_TOPIC = environ.get('LINK_CONSUMER_TOPIC')
+LINK_CONSUMER_GROUP = environ.get('LINK_CONSUMER_GROUP')
+KAFKA_CONSUMER_SERVER = environ.get('KAFKA_CONSUMER_SERVER')
