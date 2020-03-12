@@ -6,9 +6,11 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from wykoppl.db import session
-from wykoppl.items import LinkItem, DownloadedItem, Scraps, Links
+from wykoppl.items import LinkItem, DownloadedItem, Scraps, Links, Downloads
 from datetime import datetime
-#from logging import logging
+from psycopg2.errors import UniqueViolation
+from sqlalchemy.exc import InvalidRequestError, IntegrityError
+from sqlalchemy.orm.exc import NoResultFound
 
 class WykopplPipeline(object):
 
@@ -18,9 +20,10 @@ class WykopplPipeline(object):
     }
 
     def process_item(self, item, spider):
-        function_name = self.choices.get(type(item), 'empty')
-
-        getattr(self, function_name)(item)
+        if 'page_code' in item:
+            self.process_page(item)
+        else:
+            self.process_link(item)
 
         return item
 
@@ -31,12 +34,16 @@ class WykopplPipeline(object):
     def process_link(self, link_item):
         link = Links.make(link_item)
 
-        url = link.url
-        link_in_db = session.query(Links).filter_by(url=url).first()
-
-        if not link_in_db:
+        try:
             session.add(link)
             session.commit()
+        except IntegrityError:
+            session.rollback()
+        except InvalidRequestError:
+            session.rollback()
+        except Exception as e:
+            session.rollback()
+            raise e
 
         pass
 
@@ -46,11 +53,25 @@ class WykopplPipeline(object):
 
         page = Scraps.make(downloaded_item)
 
-        url = page.url
-        link_in_db = session.query(Links).filter_by(url=url).first()
+        try:
+            logitem = session.query(Downloads).filter(Downloads.url == page.url).one()
+            logitem.downloaded = 1
+        except NoResultFound:
+            logitem = Downloads(url=page.url, downloaded = 1)
+        except Exception as e:
+            raise e
 
-        if not link_in_db:
+        try:
             session.add(page)
+            session.add(logitem)
             session.commit()
+
+        except IntegrityError:
+            session.rollback()
+        except InvalidRequestError:
+            session.rollback()
+        except Exception as e:
+            session.rollback()
+            raise e
 
         pass

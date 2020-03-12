@@ -11,7 +11,7 @@ from wykoppl.db import engine
 from sqlalchemy import (MetaData,
                         Column,
                         Integer,
-                        Text,
+                        Text, String,
                         DateTime,
                         LargeBinary,)
 
@@ -33,7 +33,7 @@ class WebentityMixin:
 
 class PageMixin(WebentityMixin):
      title = Column(Text)
-     page_code = Column(LargeBinary)
+     page_contents_id = Column(Integer())
      tags = Column(Text)
      publishing_date = Column(DateTime)
      crawling_date = Column(DateTime)
@@ -43,7 +43,6 @@ class PageMixin(WebentityMixin):
           return cls(url=item['url'],
               title=item['title'],
               tags=item['tags'],
-              page_code=item['page_code'],
               publishing_date=item['publishing_date'],
               crawling_date=item['crawling_date'])
 
@@ -55,6 +54,21 @@ class Scraps(PageMixin, Base):
 class Links(WebentityMixin, Base):
      __tablename__ = 'links'
 
+
+class Downloads(Base):
+    __tablename__ = 'downloads'
+    url = Column(String(400), primary_key=True)
+    downloaded = Column(Integer(), default=0)
+
+
+class Contents(Base):
+    __tablename__ = 'content'
+    id = Column(Integer, primary_key=True)
+    page_code = Column(LargeBinary)
+
+    @classmethod
+    def make(cls, item):
+        return cls(page_code=item['page_code'])
 
 # this generates all tables for declared models
 Base.metadata.create_all(engine, checkfirst=True)

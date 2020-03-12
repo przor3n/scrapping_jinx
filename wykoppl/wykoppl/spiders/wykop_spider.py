@@ -5,6 +5,7 @@ from wykoppl.items import LinkItem, DownloadedItem
 from scrapy.shell import inspect_response
 from lxml import etree
 from datetime import datetime
+import dateutil.parser as dp
 
 class WykopSpider(scrapy.Spider):
     name = "wykop"
