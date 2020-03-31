@@ -12,7 +12,7 @@ def get_page_object(_module, _class):  # TO PIERDOLNIE
     module_path = os.path.join(p, _module + '.py')
 
     # importlib.util.find_spec(name, package=None)
-    spec = importlib.util.spec_from_file_location("wykoppl.pages." + _module,
+    spec = importlib.util.spec_from_file_location("zeug.pages." + _module,
                                                   module_path)
     _mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(_mod)

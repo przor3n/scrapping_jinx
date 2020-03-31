@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for wykoppl project
+# Scrapy settings for zeug project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,11 +9,10 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'wykoppl'
+BOT_NAME = 'zeug'
 
-SPIDER_MODULES = ['wykoppl.spiders']
-NEWSPIDER_MODULE = 'wykoppl.spiders'
-
+SPIDER_MODULES = ['zeug.spiders']
+NEWSPIDER_MODULE = 'zeug.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0'
@@ -40,20 +39,21 @@ COOKIES_ENABLED = False
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
-   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-   'Accept-Language': 'en',
+    'Accept':
+    'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'en',
 }
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'wykoppl.middlewares.WykopplSpiderMiddleware': 543,
+#    'zeug.middlewares.zeugSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'wykoppl.middlewares.WykopplDownloaderMiddleware': 543,
+#    'zeug.middlewares.zeugDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'wykoppl.pipelines.WykopplPipeline': 300,
+    'zeug.pipelines.zeugPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

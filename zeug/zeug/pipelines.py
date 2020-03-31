@@ -5,19 +5,17 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from wykoppl.db import session
-from wykoppl.items import LinkItem, DownloadedItem, Scraps, Links, Downloads
+from zeug.db import session
+from zeug.items import LinkItem, DownloadedItem, Scraps, Links, Downloads
 from datetime import datetime
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import InvalidRequestError, IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-class WykopplPipeline(object):
 
-    choices = {
-        DownloadedItem: 'process_page',
-        LinkItem: 'process_link'
-    }
+class zeugPipeline(object):
+
+    choices = {DownloadedItem: 'process_page', LinkItem: 'process_link'}
 
     def process_item(self, item, spider):
         if 'page_code' in item:
@@ -28,7 +26,7 @@ class WykopplPipeline(object):
         return item
 
     def empty(self, item):
-        print("dupa") #logging.error('Something is empty in pipeline')
+        print("dupa")  #logging.error('Something is empty in pipeline')
         pass
 
     def process_link(self, link_item):
@@ -54,10 +52,11 @@ class WykopplPipeline(object):
         page = Scraps.make(downloaded_item)
 
         try:
-            logitem = session.query(Downloads).filter(Downloads.url == page.url).one()
+            logitem = session.query(Downloads).filter(
+                Downloads.url == page.url).one()
             logitem.downloaded = 1
         except NoResultFound:
-            logitem = Downloads(url=page.url, downloaded = 1)
+            logitem = Downloads(url=page.url, downloaded=1)
         except Exception as e:
             raise e
 

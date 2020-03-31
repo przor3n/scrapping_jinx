@@ -1,15 +1,15 @@
 import scrapy
 import logging
 
-from wykoppl.items import LinkItem, DownloadedItem
-from wykoppl.items import Scraps, Links, Downloads
+from zeug.items import LinkItem, DownloadedItem
+from zeug.items import Scraps, Links, Downloads
 from scrapy.shell import inspect_response
 from lxml import etree
-from wykoppl.pages.wykop import Wykop
-from wykoppl.db import session
-
+from zeug.pages.wykop import Wykop
+from zeug.db import session
 
 from kafka import KafkaConsumer
+
 
 class LinksSpider(scrapy.Spider):
     name = "links"
@@ -36,14 +36,12 @@ class LinksSpider(scrapy.Spider):
         logging.debug("Processing page: %s" % response.url)
         content = response.body
 
-        yield DownloadedItem(
-            url=response.url,
-            title=response.url,
-            tags='',
-            page_code=content,
-            publishing_date=Wykop.publish_date(response),
-            crawling_date=''
-        )
+        yield DownloadedItem(url=response.url,
+                             title=response.url,
+                             tags='',
+                             page_code=content,
+                             publishing_date=Wykop.publish_date(response),
+                             crawling_date='')
 
         for next_page in Wykop.next_pages(response):
             meta = {'id': response.url}
@@ -59,14 +57,12 @@ class LinksSpider(scrapy.Spider):
         meta = response.meta
         content = response.body
 
-        yield DownloadedItem(
-            url=response.url,
-            title=meta['id'],
-            tags='',
-            page_code=content,
-            publishing_date=Wykop.publish_date(response),
-            crawling_date=''
-        )
+        yield DownloadedItem(url=response.url,
+                             title=meta['id'],
+                             tags='',
+                             page_code=content,
+                             publishing_date=Wykop.publish_date(response),
+                             crawling_date='')
 
         for next_page in Wykop.next_pages(response):
             yield scrapy.Request(url=next_page,

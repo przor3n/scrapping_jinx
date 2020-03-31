@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from wykoppl.pages import ScrapyPage
+from zeug.pages import ScrapyPage
 
 
 class Euler(ScrapyPage):
@@ -10,10 +10,12 @@ class Euler(ScrapyPage):
     list_link_to_content_xpath = '//table[@id="problems_table"]//a/@href'
     list_pagination_links_xpath = '//*[@class="pagination noprint"]//a/@href'
 
-    article = '//*[@class="problem_content"]/text()'
-    article_title = '//h2/text()'
-    page_title = ''
     article_page = '//*[@class="problem_content"]'
+
+    extraction = {
+        'title': '//h2/text()',
+        'content': '//*[@class="problem_content"]/text()'
+    }
 
     def content_links(self, response):
         for href in response.xpath(self.list_link_to_content_xpath).getall():

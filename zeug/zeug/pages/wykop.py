@@ -1,4 +1,4 @@
-from wykoppl.pages import ScrapyPage
+from zeug.pages import ScrapyPage
 
 
 class WykopXML(ScrapyPage):

@@ -1,19 +1,20 @@
 import scrapy
 import logging
+import time
 
-from wykoppl.items import LinkItem, DownloadedItem
+from zeug.items import LinkItem, DownloadedItem
 from scrapy.shell import inspect_response
 from lxml import etree
 from datetime import datetime
-from wykoppl.pages import get_page_object
-from wykoppl.pages.wykop import Wykop
+from zeug.pages import get_page_object
+from zeug.pages.wykop import Wykop
 
-from wykoppl.env import SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT
+from zeug.env import SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT
 
 Items = {'DownloadedItem': DownloadedItem, 'LinkItem': LinkItem}
 Item = Items.get(SPIDER_OUTPUT_ITEM)
 
-PO = get_page_object(PAGE_OBJECT)
+PO = get_page_object(PAGE_MODULE, PAGE_OBJECT)
 
 
 class WebpageSpider(scrapy.Spider):

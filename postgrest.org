@@ -1,1 +1,0 @@
-/home/blue/docs/tools/postgrest.org
