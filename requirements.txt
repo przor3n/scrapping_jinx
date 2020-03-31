@@ -4,3 +4,4 @@ SQLAlchemy==1.3.13
 python-dateutil
 nltk
 kafka-python
+pymongo

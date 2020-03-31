@@ -13,7 +13,7 @@ from sqlalchemy.exc import InvalidRequestError, IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
 
-class zeugPipeline(object):
+class ZeugPipeline(object):
 
     choices = {DownloadedItem: 'process_page', LinkItem: 'process_link'}
 

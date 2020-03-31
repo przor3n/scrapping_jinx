@@ -1,1 +1,1 @@
-scrapy crawl wykop -s JOBDIR=crawls
+scrapy crawl $SPIDER -s JOBDIR=crawls

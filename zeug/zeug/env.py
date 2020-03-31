@@ -16,3 +16,6 @@ PAGE_OBJECT = environ.get('PAGE_OBJECT')
 
 assert PAGE_MODULE, "PAGE_MODULE is required for crawler"
 assert PAGE_OBJECT, "PAGE_OBJECT is required for crawler"
+
+MONGO_DATABASE = environ.get('MONGO_DATABASE')
+MONGO_COLLECTION = environ.get('MONGO_COLLECTION')
