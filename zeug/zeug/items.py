@@ -19,6 +19,22 @@ class LinkItem(scrapy.Item):
         l.add_value('url', response.url)
         return l.load_item()
 
+class FileItem(LinkItem):
+    filename = scrapy.Field()
+    body = scrapy.Field()
+
+    @staticmethod
+    def load_item(response, page_object):
+
+        body = response._get_body().encode('utf-8')
+
+        l = ItemLoader(item=FileItem(), response=response)
+        l.add_value('url', response.url)
+        l.add_value('filename', "")
+        l.add_value('body', body)
+        return l.load_item()
+
+
 
 class DownloadedItem(scrapy.Item):
     # define the fields for your item here like:

@@ -23,15 +23,37 @@ def get_page_object(_module, _class):  # TO PIERDOLNIE
 
 class ScrapyPage:
     start_urls = []  # list of URLS to crawl/download
+
     is_single = False  # links in start_urls are list pages
+
     is_xml = False  # if is_xml the response.selector.remove_namespaces() will be done
 
+    """Below are selectors, all in XPATH. """
+
+    # path for keywords/tags
     keywords_xpath = ''
+
+    # path for title extraction
     title_xpath = ''
+
+    # path to content links
+    # .i.e. links to content, recent posts, other similar
     list_link_to_content_xpath = ''
+
+    # path for pagination of list of links
+    # i.e. category pages are alfabetical
     list_pagination_links_xpath = ''
+
+    # path for
+    # a list of links to pages with listed content
+    # i.e. links to book category pages, that display list of books under that category
     list_links_xpath = ''
+
+    # path for pagination on content page
+    # i.e. pagination for post comments
     content_pagination_links_xpath = ''
+
+    # path for publish date
     publish_date_xpath = ''
 
     def publish_date(self, response):

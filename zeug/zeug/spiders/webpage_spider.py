@@ -18,6 +18,37 @@ PO = get_page_object(PAGE_MODULE, PAGE_OBJECT)
 
 
 class WebpageSpider(scrapy.Spider):
+    """
+    Process of scraing a page.
+
+    How it is done:
+    1. by default we process lists of categories/posts,
+       you must declare that we are parsing single page
+
+    2. Processing a downloaded page.
+
+    Env:
+
+        * SPIDAER_OUTPUT_ITEM - name of the item class
+        * PAGE_MODULE, PAGE_OBJECT - name of the module and object
+          i.e PAGE_MODULE = wykop, PAGE_OBJECT = WykopXML
+
+    GLOBALS:
+        Item - set for type of output item
+        PO   - instance of  PageObject declared in ENV VARS
+
+
+    2a. Single Page
+
+        I. yield Item build using reponse data, accordingly to PageObject
+        II. yield extracted pagination links on this single page (and scrap them)
+
+    2b. List page
+
+        I. yield extracted links to content pages (single)
+        II. yield extracted links to other list pages
+        III. yield extracted pagination links to this list page (and scrap them)
+    """
     name = "webpage_spider"
 
     def start_requests(self):
