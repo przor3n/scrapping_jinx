@@ -65,8 +65,9 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'zeug.pipelines.content_extraction.ContentExtract': 300,
-    'zeug.pipelines.content_extraction.InsertMongo': 400,
+    'zeug.pipelines.db_insert.InsertDB':100,
+    #'zeug.pipelines.content_extraction.ContentExtract': 300,
+    #'zeug.pipelines.content_extraction.InsertMongo': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -82,3 +82,12 @@ class Contents(Base):
 
 # this generates all tables for declared models
 Base.metadata.create_all(engine, checkfirst=True)
+
+
+def retrive_downloads(limit = 50000):
+    for link in session.query(Downloads). \
+                filter(Downloads.downloaded == 0).limit(50000). \
+                all():
+
+        # cleaned url
+        yield link.url.replace("http://", "https://")

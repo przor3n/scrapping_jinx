@@ -9,14 +9,14 @@ from lxml import etree
 from datetime import datetime
 from zeug.pages import get_page_object
 from zeug.pages.wykop import Wykop
-from zeug.db import link_consumer
 
-from zeug.env import SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT, GLOB_PATTERN
+from zeug.env import (
+    SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT, GLOB_PATTERN)
 
 Items = {'DownloadedItem': DownloadedItem, 'LinkItem': LinkItem}
 Item = Items.get(SPIDER_OUTPUT_ITEM)
 
-PO = get_page_object(PAGE_OBJECT)
+PO = None # get_page_object(PAGE_MODULE, PAGE_OBJECT)
 
 
 class FilesystemSpider(scrapy.Spider):

@@ -10,6 +10,13 @@ from datetime import datetime
 from scrapy.loader import ItemLoader
 
 
+def clean_body(response):
+    body = response._get_body()
+    if type(body) == bytes:
+        return body.decode('utf-8')
+    else:
+        return body.encode('utf-8')
+
 class LinkItem(scrapy.Item):
     url = scrapy.Field()
 
@@ -26,7 +33,7 @@ class FileItem(LinkItem):
     @staticmethod
     def load_item(response, page_object):
 
-        body = response._get_body().encode('utf-8')
+        body = clean_body(response)
 
         l = ItemLoader(item=FileItem(), response=response)
         l.add_value('url', response.url)
@@ -45,13 +52,17 @@ class DownloadedItem(scrapy.Item):
     page_code = scrapy.Field()
     publishing_date = scrapy.Field()
     crawling_date = scrapy.Field()
+    parent = scrapy.Field()
 
     @staticmethod
     def load_item(response, page_object):
+
+        body = clean_body(response)
+
         l = ItemLoader(item=DownloadedItem(), response=response)
         l.add_value('tags', page_object.tags(response))
         l.add_value('title', page_object.title(response))
-        l.add_value('page_code', response._get_body().encode('utf-8'))
+        l.add_value('page_code', body)
         l.add_value('url', response.url)
         l.add_value('publishing_date', page_object.publish_date(response))
         l.add_value('crawling_date', datetime.now())

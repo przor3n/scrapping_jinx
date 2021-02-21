@@ -1,4 +1,4 @@
-[from scrapy.selector import Selector
+from scrapy.selector import Selector
 from scrapy.exceptions import DropItem
 
 from zeug.pages import get_page_object

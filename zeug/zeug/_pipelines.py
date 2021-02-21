@@ -6,7 +6,8 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from zeug.db import session
-from zeug.items import LinkItem, DownloadedItem, Scraps, Links, Downloads
+from zeug.items import LinkItem, DownloadedItem
+from zeug.db import Scraps, Links, Downloads
 from datetime import datetime
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import InvalidRequestError, IntegrityError

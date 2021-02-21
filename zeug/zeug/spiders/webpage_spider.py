@@ -7,7 +7,6 @@ from scrapy.shell import inspect_response
 from lxml import etree
 from datetime import datetime
 from zeug.pages import get_page_object
-from zeug.pages.wykop import Wykop
 
 from zeug.env import SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT
 

@@ -8,14 +8,13 @@ from lxml import etree
 from datetime import datetime
 from zeug.pages import get_page_object
 from zeug.pages.wykop import Wykop
-from zeug.kfk import link_consumer
 
-from zeug.env import SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT,
+from zeug.env import (SPIDER_OUTPUT_ITEM, PAGE_MODULE, PAGE_OBJECT)
 
 Items = {'DownloadedItem': DownloadedItem, 'LinkItem': LinkItem}
 Item = Items.get(SPIDER_OUTPUT_ITEM)
 
-PO = get_page_object(PAGE_OBJECT)
+PO = None #get_page_object(PAGE_OBJECT)
 
 
 class KafkaSpider(scrapy.Spider):
